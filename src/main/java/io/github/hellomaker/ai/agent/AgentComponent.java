@@ -1,10 +1,4 @@
-package com.snibe.ixlabai.service.agent;
-
-import dev.langchain4j.data.message.SystemMessage;
-import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.memory.ChatMemory;
-import dev.langchain4j.memory.chat.ChatMemoryProvider;
-import dev.langchain4j.service.tool.ToolProvider;
+package io.github.hellomaker.ai.agent;
 
 
 /**
@@ -13,16 +7,8 @@ import dev.langchain4j.service.tool.ToolProvider;
  */
 public interface AgentComponent<IN, OUT> {
 
-//    ChatMemoryProvider chatMemoryProvider();
+    OUT doChain(IN input);
 
-//    SystemMessage systemMessage();
-//
-//    MutiModelProvider mutiModelProvider();
-//
-//    ToolProvider toolProvider();
 
-    OUT doChain(IN input, ChatMemory chatMemory, UserMessage userMessage);
-
-//    List<StrategyLink<OUT>> strategyLinks();
 
 }

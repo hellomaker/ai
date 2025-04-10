@@ -1,19 +1,15 @@
-package com.snibe.ixlabai.service.agent;
-
-import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.memory.ChatMemory;
-import dev.langchain4j.memory.chat.ChatMemoryProvider;
-
-import java.util.List;
+package io.github.hellomaker.ai.agent;
 
 /**
  * @author hellomaker
  */
 public class Agent<IN, OUT> implements AgentComponent<IN, OUT>{
+
+
     @Override
-    public OUT doChain(IN input, ChatMemory chatMemory, UserMessage userMessage) {
+    public OUT doChain(IN input) {
         AbstractAgentComponent<IN, ?> rootComponent1 = getRootComponent();
-        Object o = rootComponent1.doChainAndNext(input, chatMemory, userMessage);
+        Object o = rootComponent1.doChainAndNext(input);
         try {
             return (OUT) o;
         } catch (ClassCastException e) {

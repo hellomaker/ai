@@ -1,7 +1,4 @@
-package com.snibe.ixlabai.service.agent;
-
-import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.memory.ChatMemory;
+package io.github.hellomaker.ai.agent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,40 +6,40 @@ import java.util.List;
 public abstract class AbstractAgentComponent<IN, OUT> implements AgentComponent<IN, OUT> {
 
     @Override
-    public OUT doChain(IN input, ChatMemory chatMemory, UserMessage userMessage) {
+    public OUT doChain(IN input) {
         try {
-            return doChainInternal(input, chatMemory, userMessage);
+            return doChainInternal(input);
         } catch (Exception e) {
-            return exception(e, input, chatMemory, userMessage);
+            return exception(e, input);
         }
     }
 
-    public Object doChainAndNext(IN input, ChatMemory chatMemory, UserMessage userMessage) {
-        OUT out = doChain(input, chatMemory, userMessage);
+    public Object doChainAndNext(IN input) {
+        OUT out = doChain(input);
         if (containsStrategy()) {
-            for (StrategyLink<OUT> strategy : strategies) {
-                if (strategy.isMatch(out)) {
-                    return strategy.nextComponent().doChainAndNext(out, chatMemory, userMessage);
+            for (IfStrategyLink<OUT> strategy : strategies) {
+                if (strategy.ifMatch(out)) {
+                    return strategy.nextComponent().doChainAndNext(out);
                 }
             }
         }
         return out;
     }
 
-    public abstract OUT doChainInternal(IN input, ChatMemory chatMemory, UserMessage userMessage) ;
+    public abstract OUT doChainInternal(IN input) ;
 
-    public abstract OUT exception(Exception e, IN input, ChatMemory chatMemory, UserMessage userMessage);
+    public abstract OUT exception(Exception e, IN input);
 
-    private List<StrategyLink<OUT>> strategies;
+    private List<IfStrategyLink<OUT>> strategies;
 
     public boolean containsStrategy() {
         return strategies != null && !strategies.isEmpty();
     }
     //    @Override
-    public List<StrategyLink<OUT>> strategyLinks() {
+    public List<IfStrategyLink<OUT>> strategyLinks() {
         return strategies;
     }
-    public void addStrategy(StrategyLink<OUT> strategy) {
+    public void addStrategy(IfStrategyLink<OUT> strategy) {
         if (strategies == null) {
             strategies = new ArrayList<>();
         }

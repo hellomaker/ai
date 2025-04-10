@@ -3,9 +3,9 @@ package io.github.hellomaker.ai.agent;
 /**
  * @author hellomaker
  */
-public interface StrategyLink<OUT> {
+public interface IfStrategyLink<OUT> {
 
-    boolean isMatch(OUT output);
+    boolean ifMatch(OUT output);
 
     AbstractAgentComponent<OUT, ?> nextComponent();
 
