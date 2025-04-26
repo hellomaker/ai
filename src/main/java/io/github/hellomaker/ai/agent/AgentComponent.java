@@ -9,6 +9,6 @@ public interface AgentComponent<IN, OUT> {
 
     OUT doChain(IN input);
 
-
+    String componentKey();
 
 }
